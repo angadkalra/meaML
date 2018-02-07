@@ -1,7 +1,8 @@
 import numpy as np
 import sklearn as skl
+import scipy as scp 
 
-# Load dataset: User ID, Movie ID, Rating (1/0)
+# Load dataset: User ID, Movie ID, Rating (1 or 0)
 X = np.loadtxt('ratings_small.csv', delimiter=',', skiprows=1, usecols=(0,1,2))
 n,d = X.shape
 
@@ -12,8 +13,23 @@ for i in range(n):
 	else:
 		X[i,2] = 0
 
-# Create sparse user vectors
+# Create dictionary with user as key and array of tuples as value where each tuple 
+# is (movie_id, 1)
+R = {}
 
-# Given random binary vector, find KNN
+for i in range(n):
+	userID = X[i,0]
 
-# Output user ID's
+	if X[i,2] == 1:
+		movieRating = (X[i,1],X[i,2])
+	else:
+		continue
+
+	if userID in R.keys():
+		R[userID].append(movieRating)
+	else:
+		R[userID] = [movieRating]
+
+# Given random user, find KNN (k = 5 for now)
+
+# Output user IDs
