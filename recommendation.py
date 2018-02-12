@@ -18,18 +18,38 @@ for i in range(n):
 R = {}
 
 for i in range(n):
-	userID = X[i,0]
+    userID = X[i,0]
+    
+    if X[i,2] == 0:
+        continue
+    
+    if userID in R.keys():
+        R[userID].append(X[i,1])
+    else:
+        R[userID] = [X[i,1]]
 
-	if X[i,2] == 1:
-		movieRating = (X[i,1],X[i,2])
-	else:
-		continue
+users = R.keys()
 
-	if userID in R.keys():
-		R[userID].append(movieRating)
-	else:
-		R[userID] = [movieRating]
-
-# Given random user, find KNN (k = 5 for now)
-
-# Output user IDs
+# Given user id, find KNN (k = 6 for now)
+def knn(uid):
+# Go through every user, compute euclid. distance & store (dist, id) in ndarray. 
+# Sort array based on closest dist. Return 6 closest users. 
+    
+    distances = np.ndarray((n,2), dtype=(np.int_,np.int_))
+    
+    uid_movies = np.asarray(R[uid])
+    
+    for u in users:
+        u_movies = np.asarray(R[u])
+        
+        intersection = np.intersect1d(uid_movies, u_movies, assume_unique=True)
+        union = np.union1d(u_movies, uid_movies)
+        differences = np.setdiff1d(union, intersection)
+        
+        dist = differences.size
+        distances[u,0] = dist
+        distances[u,1] = u
+        
+    
+    return 0
+    
