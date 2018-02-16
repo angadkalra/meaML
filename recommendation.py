@@ -35,12 +35,11 @@ users = R.keys()
 
 # Given user id, find KNN (k = 6 for now)
 def knn(uid):
-    # Go through every user, compute euclid. distance & store (dist, id) in ndarray.  
-    
-    distances = np.ndarray((uIDs,2), dtype=(np.int_,np.int_)) # Each row is (distance, userID)
+    distances = np.zeros((uIDs,2), dtype=(np.int_,np.int_)) # Each row is (distance, userID)
     
     uid_movies = np.asarray(R[uid])
     
+    # Go through every user, compute euclid. distance to uid & store (dist, id) in ndarray.
     for u in users:
         u_movies = np.asarray(R[u])
         
@@ -53,6 +52,8 @@ def knn(uid):
         distances[u,1] = u
     
     # Sort array based on closest dist. Return 6 closest users.
-    np.savetxt('distances.txt', distances, fmt='%1d', delimiter=',')
+    distances = distances[ distances[:,0].argsort() ]
     
-    return
+    nn = distances[2:7,1]
+    
+    return nn
