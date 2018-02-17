@@ -51,9 +51,10 @@ def knn(uid):
         distances[u,0] = dist
         distances[u,1] = u
     
-    # Sort array based on closest dist. Return 6 closest users.
+    # Sort array based on closest dist.
     distances = distances[ distances[:,0].argsort() ]
     
-    nn = distances[2:7,1]
+    # return 5 closest users, excluding yourself
+    nn = distances[2:7]
     
     return nn
